@@ -4,7 +4,8 @@
   "description": "IBAN validator",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --timeout 10000",
+    "install": "git clone https://github.com/jop-io/kontonummer.js.git node_modules/kontonummer.js"
   },
   "keywords": [
     "IBAN"
@@ -12,19 +13,32 @@
   "author": "Emmanuel Haguet",
   "license": "MIT",
   "dependencies": {
+    "banking-toolkit": "git+https://github.com/Pygocentrus/banking-toolkit.git",
+    "bic-from-iban": "^1.0.0",
     "fast-iban": "^1.1.0",
     "finnish-bank-utils": "^1.3.3",
+    "fints-institute-db": "^0.9.0",
     "iban": "0.0.11",
     "ibankit": "^1.2.2",
+    "il-bank-account-validator": "^1.0.4",
     "iran-sheba": "^1.0.4",
+    "is-currency-code": "^1.2.0",
+    "is-valid-account-number": "^2.0.1",
     "miniban": "^1.1.0",
+    "njs-tfso-bankaccount-validation": "git+https://github.com/tfso/njs-tfso-bankaccount-validation.git",
+    "php.js": "^0.1.1",
+    "run-php": "0.0.1",
     "tslib": "^1.9.3",
     "uk-modulus-checking": "^0.1.0",
+    "unified-bank-utils": "git://github.com/fohlin/unified-bank-utils.git",
     "validator.js-asserts": "^3.1.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "exec-php": "0.0.5",
     "mocha": "^5.2.0"
+  },
+  "engines": {
+    "node": ">=8.0.0"
   }
 }
