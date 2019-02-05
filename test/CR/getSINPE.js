@@ -1,6 +1,6 @@
 'use strict'
 
-const assert = require('assert');
+const assert = require('assert')
 const chai = require('chai')
 const validation = require('../../index')
 
@@ -23,9 +23,6 @@ describe('#getSINPE', function() {
     // check BAC account number (here ?)
 
     chai.expect(validation.getSINPE('CR65010200009300694487').length).to.equal(17)
-
-    // https://www.promerica.fi.cr/banca-de-personas/cuentas/cuenta-iban/ -> en cours (js)
-    // CUENTA CLIENTE 10200009300694482 NO ES UNA CUENTA CLIENTE VÁLIDA
 
     // source: http://sinpeamelo.com/como-hacer-una-transferencia-sinpe/
     // "Le compte client comprend 17 chiffres. 3 positions: code de l'entité, 14 positions: données du compte et 1 position: chiffre de contrôle."

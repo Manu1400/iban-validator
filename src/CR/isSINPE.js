@@ -28,11 +28,11 @@ function ValidarDigitoVerificador(a) {
 }
 
 // CuentaClienteOkay
-function isSNIPE(sinpe) {
+function isSINPE(sinpe) {
     if (sinpe.toString().length == 17 && ValidarDigitoVerificador(sinpe.toString())) {
       return true
     }
     return false
 }
 
-module.exports.isSNIPE = isSNIPE
+module.exports.isSINPE = isSINPE

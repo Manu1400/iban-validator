@@ -16,7 +16,7 @@ const countries = require('./countries')
 var BankUtils = require('unified-bank-utils')
 const banksDE = require('fints-institute-db')
 const isValidNorwegianAccountNumber = require('is-valid-account-number')
-const { isSNIPE } = require('./CR/isSNIPE')
+const { isSINPE } = require('./CR/isSINPE')
 
 // http://www.cnb.cz/cs/platebni_styk/iban/download/TR201.pdf
 // check digit: varies
@@ -187,7 +187,7 @@ function vote(iban) {
   if (substr == "CR") {
     const sinpe = iban.substr(5)
     // check SNIPE
-    if (isSNIPE(sinpe) == false) {
+    if (isSINPE(sinpe) == false) {
       console.log("sinpe invalid")
       return false
     }
