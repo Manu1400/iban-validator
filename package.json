@@ -4,7 +4,7 @@
   "description": "IBAN validator",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --timeout 10000",
+    "test": "mocha --timeout 10000 --use_strict",
     "install": "git clone https://github.com/jop-io/kontonummer.js.git node_modules/kontonummer.js"
   },
   "keywords": [

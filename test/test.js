@@ -192,6 +192,11 @@ describe('#isValid impossible to detect invalid IBAN', function() {
   });
 
   // TODO : IT
+
+  // https://it.wikipedia.org/wiki/Coordinate_bancarie#Codice_BBAN -> BBAN -> CAB
+  // CAB list https://www.italianbankcodes.com/ -> fetch
+
+  // generator
   // https://www.ibancalculator.com/bic_und_iban.html
 
   it('SA', function() {
@@ -378,6 +383,10 @@ describe('#isValid impossible to detect invalid IBAN', function() {
   // (liste de) Code banque:
   // https://www.nbs.sk/sk/platobne-systemy/iban/vypocet-iban-pre-sr
 
+  // http://www.iban.pk/
+  // Bank Al Habib: BBBBTTTTBBBBBBRRC
+  // C is the Check Digit (1 digit)
+
   //TODO: generated a wrong account number
   it('PK real IBAN', function() {
     // this account is on bank: HABIB METROPOLITAN BANK LIMITED
@@ -434,6 +443,8 @@ describe('#isValid impossible to detect invalid IBAN', function() {
     // 29 caractères
     // Invalid IBAN check digit!
     chai.expect(validation.isValid('QA00 SCBL 0000 0000 010122233340 1')).to.equal(false)
+
+    //TODO: check currency
   });
 
   // https://www.ubldirect.com/corporate/portals/_default/skins/darkknight/_ui/pdf/ibancommunication.pdf
@@ -528,6 +539,9 @@ describe('#isValid impossible to detect invalid IBAN', function() {
     // generated, Checksum OK, Check Digits OK, but wrong letter
     chai.expect(validation.isValid('FR8720041010060733572F02773')).to.equal(false)
   });
+
+  // Real, Banque Populaire de L’Ouest
+  //chai.expect(validation.isValid('FR76 16707001 1341 0218 1647 497')).to.equal(true)
 
   it('Real EE IBAN', function() {
     // compte courant 0733572M027

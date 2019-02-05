@@ -16,7 +16,12 @@ const countries = require('./countries')
 var BankUtils = require('unified-bank-utils')
 const banksDE = require('fints-institute-db')
 const isValidNorwegianAccountNumber = require('is-valid-account-number')
+const { isSNIPE } = require('./CR/isSNIPE')
 
+// http://www.cnb.cz/cs/platebni_styk/iban/download/TR201.pdf
+// check digit: varies
+
+// or https://www.currency-iso.org/en/home/tables/table-a1.html
 const isCurrencyCode = require('is-currency-code')
 
 // or https://github.com/liamja/modcheck.js
@@ -109,6 +114,9 @@ function vote(iban) {
   if (checkBranch(iban) == false) {
     return false
   }
+
+  //TODO: add https://github.com/fhoeben/hsac-fitnesse-plugin/issues/23 ?
+  // https://www.credit-et-banque.com/codes-cib-des-banques-en-france/
   if (substr == "FR") {
     const bankCode = iban.substr(4, 5)
     const branchCode = iban.substr(9, 5) // code guichet
@@ -173,6 +181,14 @@ function vote(iban) {
 
     if (account.validateClearingNumber() == false || account.validateAccountNumber() == false || account.isValid() == false) {
       console.log("error")
+      return false
+    }
+  }
+  if (substr == "CR") {
+    const sinpe = iban.substr(5)
+    // check SNIPE
+    if (isSNIPE(sinpe) == false) {
+      console.log("sinpe invalid")
       return false
     }
   }
