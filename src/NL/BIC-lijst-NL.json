@@ -1,0 +1,362 @@
+[
+  {
+    "bic": "AABNNL2A",
+    "id": "AABN",
+    "naambank": "ABN AMRO Trading as Kendu"
+  },
+  {
+    "bic": "ABNANL2A",
+    "id": "ABNA",
+    "naambank": "ABN AMRO BANK"
+  },
+  {
+    "bic": "ABNANL2A",
+    "id": "FTSB",
+    "naambank": "ABN AMRO (ex FORTIS)"
+  },
+  {
+    "bic": "ABNCNL2A",
+    "id": "ABNC",
+    "naambank": "ABN AMRO Clearing Bank N.V."
+  },
+  {
+    "bic": "ADYBNL2A",
+    "id": "ADYB",
+    "naambank": "ADYEN"
+  },
+  {
+    "bic": "AEGONL2U",
+    "id": "AEGO",
+    "naambank": "AEGON BANK"
+  },
+  {
+    "bic": "ANDLNL2A",
+    "id": "ANDL",
+    "naambank": "ANADOLUBANK"
+  },
+  {
+    "bic": "ARBNNL22",
+    "id": "ARBN",
+    "naambank": "ACHMEA BANK"
+  },
+  {
+    "bic": "ARSNNL21",
+    "id": "ARSN",
+    "naambank": "ARGENTA SPAARBANK"
+  },
+  {
+    "bic": "ASNBNL21",
+    "id": "ASNB",
+    "naambank": "ASN BANK"
+  },
+  {
+    "bic": "ATBANL2A",
+    "id": "ATBA",
+    "naambank": "AMSTERDAM TRADE BANK"
+  },
+  {
+    "bic": "BCDMNL22",
+    "id": "BCDM",
+    "naambank": "BANQUE CHAABI DU MAROC"
+  },
+  {
+    "bic": "BCITNL2A",
+    "id": "BCIT",
+    "naambank": "INTESA SANPAOLO"
+  },
+  {
+    "bic": "BICKNL2A",
+    "id": "BICK",
+    "naambank": "BINCKBANK"
+  },
+  {
+    "bic": "BINKNL21",
+    "id": "BINK",
+    "naambank": "BINCKBANK, PROF"
+  },
+  {
+    "bic": "BITSNL2A",
+    "id": "BITS",
+    "naambank": "BITSAFE PAYMENTS"
+  },
+  {
+    "bic": "BKCHNL2R",
+    "id": "BKCH",
+    "naambank": "BANK OF CHINA"
+  },
+  {
+    "bic": "BKMGNL2A",
+    "id": "BKMG",
+    "naambank": "BANK MENDES GANS"
+  },
+  {
+    "bic": "BLGWNL21",
+    "id": "BLGW",
+    "naambank": "BLG WONEN"
+  },
+  {
+    "bic": "BMEUNL21",
+    "id": "BMEU",
+    "naambank": "BMCE EUROSERVICES"
+  },
+  {
+    "bic": "BNDANL2A",
+    "id": "BNDA",
+    "naambank": "BRAND NEW DAY BANK"
+  },
+  {
+    "bic": "BNGHNL2G",
+    "id": "BNGH",
+    "naambank": "BANK NEDERLANDSE GEMEENTEN"
+  },
+  {
+    "bic": "BNPANL2A",
+    "id": "BNPA",
+    "naambank": "BNP PARIBAS"
+  },
+  {
+    "bic": "BOFANLNX",
+    "id": "BOFA",
+    "naambank": "BANK OF AMERICA"
+  },
+  {
+    "bic": "BOFSNL21002",
+    "id": "BOFS",
+    "naambank": "BANK OF SCOTLAND, AMSTERDAM"
+  },
+  {
+    "bic": "BOTKNL2X",
+    "id": "BOTK",
+    "naambank": "MUFG BANK"
+  },
+  {
+    "bic": "BUNQNL2A",
+    "id": "BUNQ",
+    "naambank": "BUNQ"
+  },
+  {
+    "bic": "CHASNL2X",
+    "id": "CHAS",
+    "naambank": "JPMORGAN CHASE"
+  },
+  {
+    "bic": "CITCNL2A",
+    "id": "CITC",
+    "naambank": "CITCO BANK"
+  },
+  {
+    "bic": "CITINL2X",
+    "id": "CITI",
+    "naambank": "CITIBANK INTERNATIONAL"
+  },
+  {
+    "bic": "COBANL2X",
+    "id": "COBA",
+    "naambank": "COMMERZBANK"
+  },
+  {
+    "bic": "DEUTNL2A",
+    "id": "DEUT",
+    "naambank": "DEUTSCHE BANK (bij alle SEPA-transacties)"
+  },
+  {
+    "bic": "DHBNNL2R",
+    "id": "DHBN",
+    "naambank": "DEMIR-HALK BANK"
+  },
+  {
+    "bic": "DLBKNL2A",
+    "id": "DLBK",
+    "naambank": "DELTA LLOYD BANK"
+  },
+  {
+    "bic": "DNIBNL2G",
+    "id": "DNIB",
+    "naambank": "NIBC"
+  },
+  {
+    "bic": "EBURNL21",
+    "id": "EBUR",
+    "naambank": "EBURY NETHERLANDS"
+  },
+  {
+    "bic": "FBHLNL2A",
+    "id": "FBHL",
+    "naambank": "CREDIT EUROPE BANK"
+  },
+  {
+    "bic": "FLORNL2A",
+    "id": "FLOR",
+    "naambank": "DE NEDERLANDSCHE BANK"
+  },
+  {
+    "bic": "FRNXNL2A",
+    "id": "FRNX",
+    "naambank": "FRANX"
+  },
+  {
+    "bic": "FVLBNL22",
+    "id": "FVLB",
+    "naambank": "VAN LANSCHOT"
+  },
+  {
+    "bic": "GILLNL2A",
+    "id": "GILL",
+    "naambank": "INSINGERGILISSEN"
+  },
+  {
+    "bic": "HANDNL2A",
+    "id": "HAND",
+    "naambank": "SVENSKA HANDELSBANKEN"
+  },
+  {
+    "bic": "HHBANL22",
+    "id": "HHBA",
+    "naambank": "HOF HOORNEMAN BANKIERS"
+  },
+  {
+    "bic": "HSBCNL2A",
+    "id": "HSBC",
+    "naambank": "HSBC BANK"
+  },
+  {
+    "bic": "ICBCNL2A",
+    "id": "ICBC",
+    "naambank": "MEGA INTERNATIONAL COMMERCIAL BANK"
+  },
+  {
+    "bic": "ICBKNL2A",
+    "id": "ICBK",
+    "naambank": "INDUSTRIAL & COMMERCIAL BANK OF CHINA"
+  },
+  {
+    "bic": "INGBNL2A",
+    "id": "INGB",
+    "naambank": "ING"
+  },
+  {
+    "bic": "ISAENL2A",
+    "id": "ISAE",
+    "naambank": "CACEIS BANK, Netherlands Branch"
+  },
+  {
+    "bic": "ISBKNL2A",
+    "id": "ISBK",
+    "naambank": "ISBANK"
+  },
+  {
+    "bic": "KABANL2A",
+    "id": "KABA",
+    "naambank": "YAPI KREDI BANK"
+  },
+  {
+    "bic": "KASANL2A",
+    "id": "KASA",
+    "naambank": "KAS BANK"
+  },
+  {
+    "bic": "KNABNL2H",
+    "id": "KNAB",
+    "naambank": "KNAB"
+  },
+  {
+    "bic": "KOEXNL2A",
+    "id": "KOEX",
+    "naambank": "KOREA EXCHANGE BANK"
+  },
+  {
+    "bic": "KREDNL2X",
+    "id": "KRED",
+    "naambank": "KBC BANK"
+  },
+  {
+    "bic": "LOCYNL2A",
+    "id": "LOCY",
+    "naambank": "LOMBARD ODIER DARIER HENTSCH & CIE"
+  },
+  {
+    "bic": "LOYDNL2A",
+    "id": "LOYD",
+    "naambank": "LLOYDS TSB BANK"
+  },
+  {
+    "bic": "LPLNNL2F",
+    "id": "LPLN",
+    "naambank": "LEASEPLAN CORPORATION"
+  },
+  {
+    "bic": "MHCBNL2A",
+    "id": "MHCB",
+    "naambank": "MIZUHO BANK EUROPE NV"
+  },
+  {
+    "bic": "MOYONL21",
+    "id": "MOYO",
+    "naambank": "MONEYOU"
+  },
+  {
+    "bic": "NNBANL2G",
+    "id": "NNBA",
+    "naambank": "NATIONALE-NEDERLANDEN BANK"
+  },
+  {
+    "bic": "NWABNL2G",
+    "id": "NWAB",
+    "naambank": "NEDERLANDSE WATERSCHAPSBANK"
+  },
+  {
+    "bic": "PCBCNL2A",
+    "id": "PCBC",
+    "naambank": "CHINA CONSTRUCTION BANK, AMSTERDAM BRANCH"
+  },
+  {
+    "bic": "RABONL2U",
+    "id": "RABO",
+    "naambank": "RABOBANK"
+  },
+  {
+    "bic": "RBRBNL21",
+    "id": "RBRB",
+    "naambank": "REGIOBANK"
+  },
+  {
+    "bic": "SNSBNL2A",
+    "id": "SNSB",
+    "naambank": "SNS"
+  },
+  {
+    "bic": "SOGENL2A",
+    "id": "SOGE",
+    "naambank": "SOCIETE GENERALE"
+  },
+  {
+    "bic": "TEBUNL2A",
+    "id": "TEBU",
+    "naambank": "THE ECONOMY BANK"
+  },
+  {
+    "bic": "TRIONL2U",
+    "id": "TRIO",
+    "naambank": "TRIODOS BANK"
+  },
+  {
+    "bic": "UBSWNL2A",
+    "id": "UBSW",
+    "naambank": "UBS EUROPE, NETHERLANDS BRANCH"
+  },
+  {
+    "bic": "UGBINL2A",
+    "id": "UGBI",
+    "naambank": "GARANTIBANK INTERNATIONAL"
+  },
+  {
+    "bic": "VOWANL21",
+    "id": "VOWA",
+    "naambank": "VOLKSWAGEN BANK"
+  },
+  {
+    "bic": "ZWLBNL21",
+    "id": "ZWLB",
+    "naambank": "SNS ( ex ZWITSERLEVENBANK)"
+  }
+]

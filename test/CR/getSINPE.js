@@ -28,6 +28,7 @@ describe('#getSINPE', function() {
     // "Le compte client comprend 17 chiffres. 3 positions: code de l'entité, 14 positions: données du compte et 1 position: chiffre de contrôle."
     const nbDigit = 1
     //not possible to check if exist on https://www1.sucursalelectronica.com/ebac/module/userrecovery/showUserRecovery.go?selectedCountry=GT without email
+    // other country : https://www.sucursalelectronica.com/ebac/module/userrecovery/showUserRecovery.go?selectedCountry=BS
     const bacLength = new String(parseInt(validation.getSINPE('CR65010200009300694487').substr(5), 10)).length
     //TODO: prefer <= 10 ?  -> ok('foo'.length == 3); ie ? 009911459 ?
     chai.expect(bacLength).to.equal(9 + nbDigit)

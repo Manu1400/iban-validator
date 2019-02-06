@@ -11,6 +11,8 @@ describe('#isSINPE', function() {
     // https://www.promerica.fi.cr/banca-de-personas/cuentas/cuenta-iban/
     // "CUENTA CLIENTE 10200009300694482 NO ES UNA CUENTA CLIENTE VÁLIDA"
     chai.expect(validation.isSINPE('10200009300694482')).to.equal(false)
+
+    chai.expect(validation.isSINPE('15201001027816205')).to.equal(false)
   });
 
   it('Valid account number', function() {

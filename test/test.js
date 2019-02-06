@@ -19,6 +19,69 @@ describe('#isValid', function() {
     chai.expect(validation.isValid('GB59COUT18000298093517')).to.equal(true)
   });
 
+  // case from https://github.com/fourcube/goiban-service/issues/9
+  it('BE IBAN', function() {
+    // avoid No BIC found for bank code: 001
+    chai.expect(validation.isValid('BE29001287409864')).to.equal(true)
+  });
+
+  it('LB Valid IBAN', function() {
+    // Account number: 000012121234567
+    chai.expect(validation.isValid('LB72001000000000012121234567')).to.equal(true)
+  });
+
+  // from http://www.swissiban.com/fr.htm
+  it('CH Valid IBAN', function() {
+    // Account number: 0A1024502601
+    chai.expect(validation.isValid('CH78 0055 40A1 0245 0260 1')).to.equal(true)
+  });
+
+  //TODO: find documentation
+  /*
+  it('TN invalid IBAN: RIB / Account Number checksum is not valid', function() {
+    // generated IBAN
+    // two issues: RIB / Account Number checksum (& IBAN structure is incorrect)
+    chai.expect(validation.isValid('TN4810001000101000000000')).to.equal(false)
+  });
+  */
+
+  // https://www.nbs.sk/sk/platobne-systemy/iban/vypocet-iban-pre-sr
+  it('SK IBAN with valid prefix, valid account, valid bank number', function() {
+    //Numerický kód banky: 0720 (in list)
+    // préfixe : 000289
+    // Druhá časť čísla účtu - základné číslo účtu: 1987426353 (valid)
+    chai.expect(validation.isValid('SK68 0720 0002 8919 8742 6353')).to.equal(true)
+  });
+  //TODO: find documentation
+  /*
+  it('SK IBAN with wrong prefix', function() {
+    //Numerický kód banky: 0720 (in list)
+    // WRONG préfixe : 000281
+    // Druhá časť čísla účtu - základné číslo účtu: 1987426353 (valid)
+    chai.expect(validation.isValid('SK7907200002811987426353')).to.equal(false)
+  });
+  */
+  //TODO: find documentation
+  /*
+  it('SK IBAN with wrong account number', function() {
+    // Numerický kód banky: 0720 (in list)
+    // préfixe : 000289
+    // wrong account number: 0000000012
+    chai.expect(validation.isValid('SK1607200002890000000012')).to.equal(false)
+  });
+  */
+  it('SK IBAN with wrong bank code', function() {
+    // wrong : 0721 (NOT in list - check 2019)
+    // préfixe : 000289
+    // account number: 00000000121987426353
+    chai.expect(validation.isValid('SK4307210002891987426353')).to.equal(false)
+  });
+
+  // case from https://github.com/fourcube/goiban-service/issues/19
+  it('multiple BICs for a single IBAN', function() {
+    chai.expect(validation.isValid('NL42DEUT0466964617')).to.equal(true)
+  });
+
   // from https://www.iban.com/calculate-iban
   it('France (FR) Bank Code (Code Banque) - 30002, Branch Code (Code Guiche) - 00550 and account number (Numéro de Compte) - 0000157841Z', function() {
     chai.expect(validation.isValid('FR3330002005500000157841Z25')).to.equal(true)
@@ -95,6 +158,7 @@ describe('#isValid', function() {
   it('Timor-Leste IBAN Format', function() {
     chai.expect(validation.isValid('TL38 0080 0123 4567 8910 157')).to.equal(true)
   });
+  //TODO: find BBAN (two) Check Digit in TL IBAN
 
   // Longest IBAN: 26 Characters (4 + 22 BBAN):
   it('Futur: India (IN) Longest IBAN', function() {
@@ -326,6 +390,21 @@ describe('#isValid impossible to detect invalid IBAN', function() {
     // Details for 10050000 - 24290661
     chai.expect(validation.isValid('DE02100500000024290661')).to.equal(true)
   });
+
+  // https://www.mobilefish.com/services/elfproef/elfproef.php
+  it('DE valid with valid account number', function() {
+    // account number: 755490975, blz: 10050000
+    chai.expect(validation.isValid('DE69100500000755490975')).to.equal(true)
+  });
+  // https://www.mobilefish.com/services/elfproef/elfproef.php
+  //TODO: implement this rule
+  /*
+  it('DE valid with invalid account number', function() {
+    // 10050000 - 7584955151
+    // "Kontonummer/Account Number is not valid"
+    chai.expect(validation.isValid('DE95100500007584955151')).to.equal(false)
+  });
+  */
 
   // from https://github.com/zrrrzzt/is-valid-account-number
   it('NO IBAN valid with valid account', function() {

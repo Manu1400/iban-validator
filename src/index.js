@@ -115,6 +115,16 @@ function vote(iban) {
     return false
   }
 
+  if (substr == "SK") {
+    const bankCode = iban.substr(4, 4)
+    // 39 codes bank from this form https://podnikam.sk/kalkulacky/kalkulacka-iban/
+    const codeBankSK = ["0200", "0720", "0900", "1100", "1111", "3000", "3100", "5200", "5600", "5900", "6500", "7300", "7500", "7930", "8020", "8050", "8100", "8120", "8130", "8160", "8170", "8180", "8191", "8300", "8320", "8330", "8340", "8350", "8360", "8370", "8380", "8390", "8400", "8410", "8420", "8430", "9950", "9951", "9952"]
+    if (codeBankSK.includes(bankCode) == false) {
+      console.log("SK: bank code not found " + bankCode)
+      return false
+    }
+  }
+
   //TODO: add https://github.com/fhoeben/hsac-fitnesse-plugin/issues/23 ?
   // https://www.credit-et-banque.com/codes-cib-des-banques-en-france/
   if (substr == "FR") {
@@ -192,6 +202,10 @@ function vote(iban) {
       return false
     }
   }
+  if (substr == "BE") {
+    // % 97 :
+    //isAccountNumber(iban.substr(...), iban.substr(,), iban.substr(,))
+  }
 
   // from https://virements-internationaux.bnpparibas.fr/rsc/websites/virements-internationaux/documents/pdf/fiche-info-2-liste-pays-structure-compte.pdf
   //MALTE MT 046 MTkk BBBB SSSS SCCC CCCC CCCC CCCC B = premiers caractères du code SWIFT), S = code groupe de
@@ -243,7 +257,7 @@ function vote(iban) {
 
   if (IbanBT.isValid(iban) == false) {
     //TODO : run only on simples (larges) countries
-    if (substr != "LC" && substr != "ST" && substr != "SC") {
+    if (substr != "LC" && substr != "ST" && substr != "SC" && substr != "DE") {
       votes.push("banking-toolkit")
     }
   }
