@@ -30,10 +30,41 @@ describe('#isValid', function() {
     chai.expect(validation.isValid('LB72001000000000012121234567')).to.equal(true)
   });
 
+  // explain from https://www.bpfi.ie/wp-content/uploads/2014/08/MOD-97-Final-May-2013-4.pdf
+  it('IR Valid IBAN', function() {
+    // National Sort Code (NSC): 92-05-01
+    // Account Number: 12345678
+    // BIC: IRCEIE2DAPS
+    chai.expect(validation.isValid('IE 64 IRCE 92050112345678')).to.equal(true)
+  });
+
+  //TODO: implement validation of Sort codes of the Republic of Ireland
+  // data: https://en.wikipedia.org/wiki/Sort_code#Sort_codes_of_the_Republic_of_Ireland
+
+  //TODO: implement validation of Sort codes in Poland
+
+  // real IBAN, from https://pl.wikipedia.org/wiki/Numer_rozliczeniowy
+  it('PL Valid IBAN', function() {
+    // https://github.com/mczuchnowski/polish_banks/blob/master/lib/data/1010.yml :
+    // 1010 1023 -> branch: Oddział Okręgowy w Warszawie - Rozliczenia ZUS
+    chai.expect(validation.isValid('PL83 1010 1023 0000 2613 9510 0000')).to.equal(true)
+  });
+
+  // bank code from list https://bank.gov.ua/control/bankdict/banks?type=369&sort=mfo_code&cPage=1&startIndx=21
+  it('UA Valid IBAN', function() {
+    // bank code : 312248
+    // account number : 1234567890123456789 (19-characters Number or Alphabet)
+    chai.expect(validation.isValid('UA463122481234567890123456789')).to.equal(true)
+  });
+
+  //TODO: utiliser liste des codes de banque (MFO) https://bank.gov.ua/control/bankdict/banks?type=369&sort=mfo_code&cPage=1&startIndx=21
+
   // from http://www.swissiban.com/fr.htm
   it('CH Valid IBAN', function() {
     // Account number: 0A1024502601
     chai.expect(validation.isValid('CH78 0055 40A1 0245 0260 1')).to.equal(true)
+    // https://twitter.com/Ra2bi/status/612930090419269632
+    chai.expect(validation.isValid('CH84 0900 0000 1269 0363 7')).to.equal(true)
   });
 
   //TODO: find documentation
@@ -121,6 +152,11 @@ describe('#isValid', function() {
     chai.expect(validation.isValid('US64SVBKUS6S3300958879')).to.equal(false)
   });
 
+  // from https://github.com/arhs/iban.js/issues/62
+  it('invalid SN IBAN structure', function() {
+    chai.expect(validation.isValid('SN08SN0100152001608930008516')).to.equal(false)
+  });
+
   //TODO: https://github.com/symfony/symfony/commit/07b38dea1f76bdba9800e9106b9db2e2d0a65ef2
   //TODO: WF or FR ?! https://www.nordea.dk/erhverv/produkter/konti-betalinger/iban-codes-en.html
   //it('Country: Wallis and Futuna Islands', function() {
@@ -147,23 +183,61 @@ describe('#isValid', function() {
     chai.expect(validation.isValid('AE070331234567890123456')).to.equal(true)
   });
 
+  // https://www.hsbc.com.mt/1/2/mt//en/useful-information/iban-calculator
+  it('HSBC Bank Malta invalid account', function() {
+    // '123456789012' is an invalid account
+    //TODO: generated this wrong IBAN
+  });
+  // https://www.hsbc.ae/1/2/common/iban-generator
+  it('HSBC UAE IBAN generated', function() {
+    // '1-123876-118' -> invalid (not 12 chars)
+    // '122-123876-118' -> valid (12 chars)
+    chai.expect(validation.isValid('AE580200000122123876118')).to.equal(true)
+  });
+
   // example from https://www.hsbc.fr/1/2/hsbc-france/particuliers/banque-au-quotidien/pays-iban
   it('Maurice (Île)	- 29 chars', function() {
     chai.expect(validation.isValid('MU22BOMM020220204040020000MUR')).to.equal(true)
   });
   // example from https://www.xe.com/ibancalculator/sample/?ibancountry=mauritius
   it('Maurice (Île)	- 30 chars', function() {
+    // MUR = OK
     chai.expect(validation.isValid('MU17 BOMM 0101 1010 3030 0200 000M UR')).to.equal(true)
   });
   it('Timor-Leste IBAN Format', function() {
     chai.expect(validation.isValid('TL38 0080 0123 4567 8910 157')).to.equal(true)
   });
+
+  // Invalid currency
+  it('Maurice (Île)	- invalid currency', function() {
+    // 'NOT' is not a currrency
+    chai.expect(validation.isValid('MU12 BOMM 0101 1010 3030 0200 000N OT')).to.equal(false)
+  });
+  // Currency in ISO 4217 but it's an old code
+  // example from https://fr.wikipedia.org/wiki/ISO_4217#BRR
+  it('IBAN - old ISO 4217 code', function() {
+    // XBA: old
+    chai.expect(validation.isValid('MU23 BOMM 0101 1010 3030 0200 000X BA')).to.equal(false)
+  });
+  //TODO: avoid XTS currency code
+
   //TODO: find BBAN (two) Check Digit in TL IBAN
 
   // Longest IBAN: 26 Characters (4 + 22 BBAN):
   it('Futur: India (IN) Longest IBAN', function() {
     // found on https://www.iban.in/structure.html
     chai.expect(validation.isValid('IN68 0027 4324 5672 4672 1968 72')).to.equal(false) // false because it's futur
+  });
+
+  it('Iran valid code', function() {
+    chai.expect(validation.isValid('IR240150000001177301920207')).to.equal(true)
+  });
+  it('Iran (mellat iban) invalid check digit', function() {
+    chai.expect(validation.isValid('IR680120010000004168450796')).to.equal(false)
+  });
+  // from https://github.com/rghorbani/iran-sheba/blob/master/test.js
+  it('Iran valid IBAN', function() {
+    chai.expect(validation.isValid('IR820540102680020817909002')).to.equal(true)
   });
 
   // https://github.com/globalcitizen/php-iban/issues/39
@@ -229,6 +303,13 @@ describe('#isValid impossible to detect invalid IBAN', function() {
     chai.expect(validation.isValid('VG96VPVG0000012345678901')).to.equal(true)
   });
 
+  it('PT - IBAN', function() {
+    chai.expect(validation.isValid('PT50 0002 0123 1234 5678 9015 4')).to.equal(true)
+  });
+  it('PT - invalid IBAN - not PT50', function() {
+    chai.expect(validation.isValid('PT77 0002 0123 1234 5678 9015 3')).to.equal(false)
+  });
+
   // from https://github.com/arhs/iban.js/issues/61
   it('IBAN structure is incorrect', function() {
     chai.expect(validation.isValid('VG4835Q30660010096333091')).to.equal(false)
@@ -248,6 +329,7 @@ describe('#isValid impossible to detect invalid IBAN', function() {
   });
 
   it('ES with Account Number checksum is invalid', function() {
+    // X   Check Digit (Dígito de Control) you entered (09) does not match with the calculated figure (01).
     chai.expect(validation.isValid('ES06 0030 1235 0903 0005 0273')).to.equal(false)
   });
 
@@ -309,6 +391,13 @@ describe('#isValid impossible to detect invalid IBAN', function() {
     chai.expect(validation.isValid('AE950530009123456789012')).to.equal(false)
   });
 
+  // https://www.nbad.com/en-ae/personal-banking/accounts/iban.html
+  it('nbad.com', function() {
+    // "9-10" chars for account number
+    chai.expect(validation.isValid('AE750350000000123456789')).to.equal(true)
+    chai.expect(validation.isValid('AE160350000001000000000')).to.equal(true)
+  });
+
   //TODO : use https://www.bankaletihad.com/en/about-the-site/iban-generator
   //The Account Number You Entered Appears To Be Incorrect. Please Double-Check It And Try Again.
 
@@ -343,6 +432,11 @@ describe('#isValid impossible to detect invalid IBAN', function() {
   it('IBAN generated jsbl.com', function() {
     // Account Number : 6 digits ?
     chai.expect(validation.isValid('PK67JSBL9030000000123456')).to.equal(true)
+  });
+  // https://www.bankalfalah.com/iban
+  it('IBAN generated bankalfalah.com', function() {
+    // 1111-9123456789
+    chai.expect(validation.isValid('PK38ALFH1111009123456789')).to.equal(true)
   });
 
   // http://www.arabbank.ps/en/ibangenerator.aspx
@@ -380,6 +474,15 @@ describe('#isValid impossible to detect invalid IBAN', function() {
     // account number : 5295 0010004357
     chai.expect(validation.isValid('DK8052950010004357')).to.equal(true)
     chai.expect(validation.isValid('PL42237000080000000020001034')).to.equal(true)
+  });
+
+  // real, from https://www.eilersen.com/bank-information/
+  it('DK real IBAN', function() {
+    // (BIC: NDEADKKK)
+    // Registration No: 2230
+    // Account No: 50 36 08 21 45 -> 5036 0821 45
+    // Currency : EUR
+    chai.expect(validation.isValid('DK 83 2000 5036 0821 45')).to.equal(true)
   });
 
   it('IBAN generated seb.se but with a unknown blz', function() {
@@ -559,27 +662,23 @@ describe('#isValid impossible to detect invalid IBAN', function() {
     //chai.expect(validation.isValid('NL11ABNA0000055555')).to.equal(true)
   });
 
+  // from official swift_iban_registry_201812.pdf
+  it('IBAN SV official example', function() {
+    // Not in https://en.wikipedia.org/wiki/International_Bank_Account_Number
+    chai.expect(validation.isValid('SV 62 CENR 00000000000000700025')).to.equal(true)
+  })
+
+  //TODO: check BIC (4 chars) and check sort codes of Malta IBANs
+  // file from https://www.centralbankmalta.org/iban
+
+  //TODO : FR codes interbancaires (CIB) (old list) https://intendancezone.net/IMG/pdf/eccib.pdf
+
 
   // https://fr.wikipedia.org/wiki/International_Bank_Account_Number#Composition
   it('Wrong key', function() {
     // TODO: key not in (02 to 98)
     chai.expect(validation.isValid('FR0111008000010004126302470')).to.equal(false)
   });
-
-  // IBAN from https://github.com/fohlin/unified-bank-utils
-  it('SE normal IBAN', function() {
-    // 9252 - 0782455
-    chai.expect(validation.isValid('SE4792500000092520782455')).to.equal(true)
-  });
-  it('SE Swedbank (special)', function() {
-    chai.expect(validation.isValid('SE5780000829902814958514')).to.equal(true)
-  });
-  it('SE Account Number checksum is invalid', function() {
-    // from https://github.com/fohlin/unified-bank-utils/blob/master/tests/test-swedish.js
-    // 8000 - 332452515
-    chai.expect(validation.isValid('SE7880000080000332452515')).to.equal(false)
-  });
-  // can test other values from http://www-2.danskebank.com/link/Bankernaskontonummer
 
   it('Real LBP La Banque Postale (French bank) IBAN', function() {
     // real, from http://www.yvesmichel.org/editions/wp-content/uploads/2016/04/RIB-GERM-BP.pdf
@@ -622,11 +721,23 @@ describe('#isValid impossible to detect invalid IBAN', function() {
   // Real, Banque Populaire de L’Ouest
   //chai.expect(validation.isValid('FR76 16707001 1341 0218 1647 497')).to.equal(true)
 
+  // from https://www.mcb.com.pk/quick_links/international-bank-account-number-iban
+  it('Real PK IBAN', function() {
+    // Example of Existing Bank Account Number: 0646609971000177
+    chai.expect(validation.isValid('PK24 MUCB 0646 6099 7100 0177')).to.equal(true)
+  });
+
   it('Real EE IBAN', function() {
     // compte courant 0733572M027
     // FR422004101006 0733572M027 59
     chai.expect(validation.isValid('EE632200221033498837')).to.equal(true)
   });
+
+  // https://www.cbiuae.com/en/personal/contact-and-support/iban-and-swift-code
+  it('generated AE IBAN CBI with a default account number', function() {
+    // 1234567890123456
+    chai.expect(validation.isValid('AE880221234567890123456')).to.equal(true)
+  })
 
   // http://www.ma-neobanque.com/iban-etranger-refuse-est-ce-vraiment-illegal/
   // "N26 dispose à présent du BIC Français qui est NTSBFRM associé au Code Banque 20433"

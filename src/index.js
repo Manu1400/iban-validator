@@ -17,11 +17,19 @@ var BankUtils = require('unified-bank-utils')
 const banksDE = require('fints-institute-db')
 const isValidNorwegianAccountNumber = require('is-valid-account-number')
 const { isSINPE } = require('./CR/isSINPE')
+const depositIban = require('deposit-iban')
+const isValidIsraelAccountNumber = require('il-bank-account-validator')
+// https://stackoverflow.com/questions/34059644/mocha-command-giving-referenceerror-window-is-not-defined
+//const oibValidator = require('./../node_modules/oib-validator.js/iban-hr')
+
+
+//TODO : add njs-tfso-bankaccount-validation
+// https://github.com/tfso/njs-tfso-bankaccount-validation/blob/1d669f87f54f378d2645ec8b0f0c431e400ff269/test/SE/testSwedishPlusgiroValidation.ts
 
 // http://www.cnb.cz/cs/platebni_styk/iban/download/TR201.pdf
 // check digit: varies
 
-// or https://www.currency-iso.org/en/home/tables/table-a1.html
+// or download currency data on https://www.currency-iso.org/en/home/tables/table-a1.html
 const isCurrencyCode = require('is-currency-code')
 
 // or https://github.com/liamja/modcheck.js
@@ -59,17 +67,25 @@ function all(iban) {
 
 function checkCurrency(iban) {
   var substr = iban.trim().substr(0, 2)
-  // currency on 3 characters
-  if (substr == "SC") {
-    const currency = iban.substr(28)
-    if (isCurrencyCode(currency) == false) {
-      console.error("wrong currency code in IBAN")
+  // source: https://cs.wikipedia.org/wiki/International_Bank_Account_Number
+  if (substr == "MU" || substr == "SC") {
+    // currency on 3 characters
+    if (isCurrencyCode(iban.substr(-3)) == false || iban.substr(-3) == "XBA") {
+      console.error("wrong (or old) currency code in IBAN")
       return false
     }
   }
-  // currency on 2 characters
-  // https://bank.codes/iban/generate/guatemala/
-  // == "01" || == "02" || == "28"
+  if (substr == "GT") {
+    // currency on 2 characters
+    // https://bank.codes/iban/generate/guatemala/
+    var currency = iban.substr(8, 2)
+    if (currency == "01" || currency == "02" || currency == "28") {
+      return true
+    } else {
+      console.error("wrong currency")
+      return false
+    }
+  }
 
   return true
 }
@@ -114,7 +130,27 @@ function vote(iban) {
   if (checkBranch(iban) == false) {
     return false
   }
+  if (substr == "IL") {
+    var bankCode = iban.substr(4, 3)
+    var branchCode = iban.substr(7, 3)
+    var accountNumber = iban.substr(-13)
+    console.log({
+      bankCode: bankCode,
+      branchCode: branchCode,
+      accountNumber: accountNumber
+    })
+    // quick fix for LEUMI
+    if (isValidIsraelAccountNumber(bankCode, branchCode, accountNumber) == false && bankCode != '010') {
+      console.log("not a valid Israel iban")
+      return false
+    }
+  }
 
+  if (substr == "AT") {
+    //TODO: check BLZ
+  }
+
+  // https://www.nbs.sk/en/payment-systems/iban/iban-slovak-republic -> ??
   if (substr == "SK") {
     const bankCode = iban.substr(4, 4)
     // 39 codes bank from this form https://podnikam.sk/kalkulacky/kalkulacka-iban/
@@ -124,9 +160,58 @@ function vote(iban) {
       return false
     }
   }
+  if (substr == "IR") {
+    if (depositIban.util.isValidIban(iban) == false) {
+      console.log("Wrong IBAN (source: depositIban)")
+      return false
+    }
+  }
+  //TODO : add test coverage
+  //TODO : check digit "2 digits represent checksum number, calculated using ISO 7064 MOD 97-10"
+  //  see https://github.com/todorowww/banking-srb/blob/master/tests/BankingSRBTest.php
+  if (substr == "RS") {
+    var bankCode = iban.substr(4, 3)
+    // as 9 fev. 2019 https://www.nbs.rs/internet/latinica/20/plp/pu_jedinstveni_id_brojevi.pdf
+    var bankCodesRS = require('./RS/bankCodeArr.json')
+    if (bankCodesRS.includes(bankCode) == false) {
+      console.log('code bank (in RS country) not found')
+      return false
+    }
+  }
+
+  //TODO : add test coverage
+  if (substr == "HR") {
+    const { checkAccount } = require('./HR/checkAccount')
+    if (checkAccount(iban.substr(-10)) == false) {
+      return false
+    }
+
+    var bankCode = iban.substr(4, 7)
+    console.log(bankCode)
+    // as 9 fev. 2019 https://www.hnb.hr/temeljne-funkcije/platni-promet/vodeci-brojevi-banaka
+    var bankCodesRS = require('./HR/bankCodeArr.json')
+    if (bankCodesRS.includes(bankCode) == false) {
+      console.log('code bank (in HR country) not found')
+      return false
+    }
+  }
+
+  // https://github.com/MiroslavJelaska/iban-hr.js
+  /*
+  if (substr == "HR") {
+    if (oibValidator.getDetails().bankName.length <= 1) {
+      console.log("bank name too short")
+      return false
+    }
+  }
+  */
+
+  //FR: CIB data https://www.banque-france.fr/bdf_tcn/issuers
+  // from https://www.banque-france.fr/politique-monetaire.html
 
   //TODO: add https://github.com/fhoeben/hsac-fitnesse-plugin/issues/23 ?
   // https://www.credit-et-banque.com/codes-cib-des-banques-en-france/
+  // old list: https://intendancezone.net/IMG/pdf/eccib.pdf
   if (substr == "FR") {
     const bankCode = iban.substr(4, 5)
     const branchCode = iban.substr(9, 5) // code guichet
@@ -180,19 +265,32 @@ function vote(iban) {
     }
   }
   if (substr == "SE") {
+    /*
     // see https://github.com/jop-io/kontonummer.js
-    var is8 = (iban.substr(9, 1) == "8")
+    // fork: https://github.com/ajgarn/kontonummer.js/commits/master
+    const is8 = (iban.substr(9, 1) == "8") // "0" -> false
     var sortCode = is8 ? iban.substr(9, 5) : iban.substr(13, 4)
     var accountNumber = is8 ? iban.substr(14) : iban.substr(17)
-    //console.log({sortCode: sortCode, accountNumber: accountNumber})
+    console.log({sortCode: sortCode, accountNumber: accountNumber})
     var account = BankUtils.SE.account(sortCode, accountNumber)
+    console.log({account: account})
     //console.log(account.bankName)
     //Note: can use kontonummer.js too
+    if (account.validateClearingNumber() == false) {
+      console.log("erreur numéro 1 présente")
+    }
+    if (account.validateAccountNumber() == false) {
+      console.log("erreur numéro 2 présente")
+    }
+    if (account.isValid() == false) {
+      console.log("erreur numéro 3 présente")
+    }
 
     if (account.validateClearingNumber() == false || account.validateAccountNumber() == false || account.isValid() == false) {
       console.log("error")
       return false
     }
+    */
   }
   if (substr == "CR") {
     const sinpe = iban.substr(5)
@@ -211,6 +309,33 @@ function vote(iban) {
   //MALTE MT 046 MTkk BBBB SSSS SCCC CCCC CCCC CCCC B = premiers caractères du code SWIFT), S = code groupe de
   if (substr == "MT") {
     //TODO: check SWIFT
+  }
+  if (substr == "MT") {
+    // check BIC 4 https://www.centralbankmalta.org/iban
+
+    // get sortCodes from BIC 4
+
+    // APS Bank
+    if (iban.substr(4,4) == "APSB") {
+      var accountNumber = iban.substr(-11)
+      // TODO: check with fetch() if accountnumber is OK and check IBAN generated
+      // use https://www.apsbank.com.mt/en/iban
+    }
+    // Bank of Valletta (BOV)
+    if (iban.substr(4, 4) == "VALL") {
+      var accountNumber = iban.substr(-11)
+      // TODO: check with fetch() if accountnumber is OK and check IBAN generated
+      // use https://www.bov.com/ibanvalidator.aspx
+    }
+  }
+  if (substr == "SA") {
+    var accountNumber = iban.substr(-12)
+    // Alawwal Bank)
+    if (true) { // check code bank
+      // TODO: fetch https://www.alawwalbank.com/en/personal/accounts/iban-calculator
+      // 010195510159 (validate) -> SA26 5000 0000 0101 9551 0159
+      // from real, www.ajib.com/ar/node/313
+    }
   }
 
   if (substr == "MU") {
@@ -255,9 +380,11 @@ function vote(iban) {
     votes.push("BICFromIBAN")
   }
 
+  //TODO: utiliser aussi le module sortCode
   if (IbanBT.isValid(iban) == false) {
     //TODO : run only on simples (larges) countries
-    if (substr != "LC" && substr != "ST" && substr != "SC" && substr != "DE") {
+    if (substr != "LC" && substr != "ST" && substr != "SC" && substr != "DE"
+      && substr != "IR" && substr != "UA" && substr != "SV") {
       votes.push("banking-toolkit")
     }
   }
@@ -316,7 +443,8 @@ function validateSpecific(iban) {
       //note: can check sortCode on webpage http://www.fasterpayments.org.uk/consumers/sort-code-checker
       break
     case 'IR':
-      bool = Sheba.isValid(iban)
+      var recognize = Sheba.recognize(iban)
+      bool = (typeof(recognize) !== "boolean" && recognize !== false)
       break
     case 'FI':
       bool = FinnishBankUtils.isValidFinnishIBAN(iban)

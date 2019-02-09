@@ -1,0 +1,11 @@
+# exclude tests
+test/*
+
+# exclude documentation
+doc/*
+
+# exclude tests
+lib/*
+
+# exclude file about ideas
+ideas.md
