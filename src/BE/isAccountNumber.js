@@ -42,6 +42,5 @@ var accountNumberObj = {
 function isAccountNumber(part1, part2, part3) {
    return accountNumberObj.validate(part1, part2, part3)
 }
-//console.log(isAccountNumber('310', '1959582', '74'))
 
 module.exports.isAccountNumber = isAccountNumber

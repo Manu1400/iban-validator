@@ -19,6 +19,12 @@ describe('#isValid', function() {
     chai.expect(validation.isValid('GB59COUT18000298093517')).to.equal(true)
   });
 
+  // https://twitter.com/HSBC_UK/status/1092125192053231617
+  // https://www.coursehero.com/file/p50oddp/in-normal-circumstances-be-able-to-pay-to-your-Credit-Card-and-have-the/
+  it('Visa Card 454638 or MasterCard: HSBC and Welsh or Gold Visa', function() {
+    chai.expect(validation.isValid('GB52HBUK40424699009787')).to.equal(true)
+  });
+
   // case from https://github.com/fourcube/goiban-service/issues/9
   it('BE IBAN', function() {
     // avoid No BIC found for bank code: 001
@@ -65,6 +71,43 @@ describe('#isValid', function() {
     chai.expect(validation.isValid('CH78 0055 40A1 0245 0260 1')).to.equal(true)
     // https://twitter.com/Ra2bi/status/612930090419269632
     chai.expect(validation.isValid('CH84 0900 0000 1269 0363 7')).to.equal(true)
+  });
+
+  // from http://www.leasing.md/lsmain.nsf/rom/page/payment
+  it('Real Moldova Agroindbank Valid IBAN', function() {
+    // Valuta MDL: IBAN MD51AG000000000225171584
+    chai.expect(validation.isValid('MD51AG000000000225171584')).to.equal(true)
+
+    // Valuta EUR: IBAN MD24AG000000000225171585
+    chai.expect(validation.isValid('MD24AG000000000225171585')).to.equal(true)
+
+    // Valuta USD: IBAN MD94AG000000000225171586 -> account number: 225171586
+    chai.expect(validation.isValid('MD94AG000000000225171586')).to.equal(true)
+  });
+
+  //TODO : call AJAX https://www.maib.md/ro/calculator-iban/ to validate account number
+  it('Real Moldova Agroindbank Valid IBAN', function() {
+    // 1225100013104168 : wrong acccount number
+    // chai.expect(validation.isValid('MD70AG001225100013104168')).to.equal(false)
+  });
+
+  // https://www.abl.com/business-banking/home-remittances/generate-iban/
+  it('generated IBAN from abl.com', function() {
+    // account number: 0010000000000015
+    chai.expect(validation.isValid('PK69 ABPA 0010 0000 0000 0015')).to.equal(true)
+  });
+
+  // https://www.hellenicbank.com/portalserver/hb-en-portal/useful-tools/iban-converter
+  it('generated IBAN from hellenicbank.com', function() {
+    // account number: 1234567890123
+    chai.expect(validation.isValid('CY22 0050 0123 0001 2345 6789 0123')).to.equal(true)
+  });
+
+  // account number: 101501150115
+  // https://www.alsalambahrain.com/en/ONLINE-SERVICES/iban
+  // see https://www.alsalambahrain.com/Style%20Library/JS/webpart/IBANGenerator.js
+  it('IBAN Al Salam Bank with valid account number', function() {
+    chai.expect(validation.isValid('BH58ALSA00101501150115')).to.equal(true)
   });
 
   //TODO: find documentation
@@ -181,6 +224,25 @@ describe('#isValid', function() {
   // from swift_iban_registry_201812.pdf
   it('Valid IBAN of AE – United Arab Emirates (The)', function() {
     chai.expect(validation.isValid('AE070331234567890123456')).to.equal(true)
+  });
+
+  // from https://www.adcb.com/personalbanking/accounts/iban.asp
+  it('generated IBAN from adcb.com', function() {
+    chai.expect(validation.isValid('AE840030000123456789012')).to.equal(true)
+  });
+
+  // https://sebgroup.com/pow/apps/iban/ci/ibancalc.asp?lang=en
+  it('generated IBAN from adcb.com', function() {
+    // National SEB Account No : 5491 0000003
+    chai.expect(validation.isValid('SE3550000000054910000003')).to.equal(true)
+    // account number: 12630247 (ex)
+    chai.expect(validation.isValid('GB63ESSE40486512630247')).to.equal(true)
+  });
+
+  // https://www.emiratesnbd.com/en/iban/ (capcha)
+  it('generated IBAN from adcb.com', function() {
+    // Account Number : 1234567890123
+    chai.expect(validation.isValid('AE980260001234567890123')).to.equal(true)
   });
 
   // https://www.hsbc.com.mt/1/2/mt//en/useful-information/iban-calculator
@@ -413,6 +475,17 @@ describe('#isValid impossible to detect invalid IBAN', function() {
     chai.expect(validation.isValid('PK68BAHL1234567890123456')).to.equal(true)
   });
 
+  // https://www.meezanbank.com/iban-generator/
+  it('PK generated meezanbank.com', function() {
+    // Abbottabad, Abbottabad Branch, 1234567890 -> Branch Code 1501
+    // city -> list of branch possible -> branch (but don't use code for city)
+    chai.expect(validation.isValid('PK54MEZN0015011234567890')).to.equal(true)
+    // Branch code 5201
+    chai.expect(validation.isValid('PK59MEZN0052011234567890')).to.equal(true)
+    // Real https://twitter.com/alkhidmatkp/status/1075379660475809792
+    chai.expect(validation.isValid('PK39MEZN0007010100716354')).to.equal(true)
+  });
+
   // https://bankofpalestine.com/en/iban * Great form *
   it('IBAN generated bankofpalestine.com', function() {
     chai.expect(validation.isValid('PS03PALS044612345670013102009')).to.equal(true)
@@ -562,6 +635,56 @@ describe('#isValid impossible to detect invalid IBAN', function() {
     chai.expect(validation.isValid('CZ38 0710 0000 1900 0000 0019')).to.equal(true)
   });
 
+  // https://www.teb.com.tr/iban-hesaplama/
+  it('IBAN generated by teb.com.tr', function() {
+    chai.expect(validation.isValid('TR170003200000000012345678')).to.equal(true)
+  });
+
+  // TR : check reserve code
+  // documentation : https://www.teb.com.tr/for-you/iban/
+  it('TR wrong reserve digit', function() {
+    // reserve : set 9 as reserve digit (wrong)
+    // ->  IBAN structure is incorrect
+    chai.expect(validation.isValid('TR830003290000000012345678')).to.equal(false)
+  });
+
+  // https://www.isbank.com.tr/EN/IBAN-calculator/Pages/iban-calculator.aspx
+  // TR58 0006 4000 0021 0011 2345 67
+  // TR53 0006 4000 0019 9991 2345 67
+
+  // from https://github.com/sinkien/IBAN4Net/issues/10
+  it('issue 10', function() {
+    chai.expect(validation.isValid('BH14SCBLBHD18905826101')).to.equal(true)
+    chai.expect(validation.isValid('BG80BNBG96611020345678')).to.equal(true)
+    chai.expect(validation.isValid('KZ86125KZT5004100100')).to.equal(true)
+  });
+
+  // Vatican, real IBAN http://www.vatican.va/roman_curia/pontifical_councils/corunum/corunum_en/profilo_en/aiuto_en.html
+  it('Vatican (IT) real IBAN', function() {
+    chai.expect(validation.isValid('IT 20 S 07601 03200 000000 603035')).to.equal(true)
+
+    // UNICREDIT - Pontifical Council "Cor Unum"
+    chai.expect(validation.isValid('IT 46 H 02008 05008 00010 19157 64')).to.equal(true)
+  })
+
+  // On 1 March 2019 Andorra and Vatican City join SEPA.
+  // Un code IBAN spécifique au Saint-Siège et à l'État du Vatican sera utilisé
+  it('Vatican (VA) exemple IBAN (from swift iban registry 2018 12 20)', function() {
+    // IBAN format effective date: Nov-19 -> false
+    chai.expect(validation.isValid('VA59 001 1230 0001 2345 678')).to.equal(false)
+  })
+
+  // https://www.noorbank.com/info/iban/generator
+  it('generated noorbank.com', function() {
+    chai.expect(validation.isValid('AE730520012345678901234')).to.equal(true)
+  });
+
+  // Old data: https://www.ibanvalidator.com/en/support/bank/221/pancretan-cooperative-bank.html
+  // https://e.pancretabank.gr/iban/index_eng.php
+
+  // https://www.slsp.sk/en/calculators/iban-kalkulacka-validator
+  // -> missing check Account Number checksum on website
+
   // (liste de) Code banque:
   // https://www.nbs.sk/sk/platobne-systemy/iban/vypocet-iban-pre-sr
 
@@ -616,6 +739,7 @@ describe('#isValid impossible to detect invalid IBAN', function() {
   // Tchad https://fr.iban.com/structure
   //it('TD - Chad', function() {
     // "CM + 23 caractères" d'après https://virements-internationaux.bnpparibas.fr/rsc/websites/virements-internationaux/documents/pdf/fiche-info-2-liste-pays-structure-compte.pdf
+    // fail : [ 'IBAN', 'banking-toolkit' ]
     //chai.expect(validation.isValid('TD8960002000010271091600153')).to.equal(true)
   //});
 
@@ -629,6 +753,23 @@ describe('#isValid impossible to detect invalid IBAN', function() {
     //TODO: check currency
   });
 
+  // http://www.qiib.com.qa/Tools/IBAN
+  it('generated IBAN QA from qiib.com.qa', function() {
+    // account number: 1234567890123
+    chai.expect(validation.isValid('QA37QIIB000000001234567890123')).to.equal(true)
+
+    //TODO: check currency
+  });
+
+  // https://www.eurobank.com.cy/en/tools/ibanGenerator
+  it('generated IBAN QA from eurobank.com.cy', function() {
+    // banking Centre : 009
+    // account number: 524952495249
+    chai.expect(validation.isValid('CY36018000090000524952495249')).to.equal(true)
+
+    //TODO: check banking center
+  });
+
   // https://www.ubldirect.com/corporate/portals/_default/skins/darkknight/_ui/pdf/ibancommunication.pdf
   //it('United Bank Limited', function() {
   //  chai.expect(validation.isValid('PK16UNIL0112094910113152')).to.equal(true) // manque un char ?
@@ -637,6 +778,24 @@ describe('#isValid impossible to detect invalid IBAN', function() {
   it('United Bank Limited: Valid IBAN but Account Length store in IBAN is wrong', function() {
     chai.expect(validation.isValid('PK03UNIL0000094910113152')).to.equal(false)
   });
+
+  // https://www.ccb.coop/tools/iban/#!prettyPhoto
+  it('generated from ccb.coop', function() {
+    // Sociétés coopératives: 10110
+    // Non (8 chiffres): 00011111
+    chai.expect(validation.isValid('CY05007101100000000000011111')).to.equal(true)
+    // invalid
+    chai.expect(validation.isValid('CY05007101100000000100011111')).to.equal(false)
+  });
+
+  // https://www.ccb.coop/tools/iban/#!prettyPhoto
+  /*
+  it('Invalid account number from ccb.coop', function() {
+    //TODO: check account number : query AJAX -> fetch
+    // 10110 + 77777777 -> invalid number : account number 0000000077777777
+    chai.expect(validation.isValid('CY47007101100000000077777777')).to.equal(false)
+  });
+  */
 
   // http://akbl.com.pk/services/iban-account/iban-generator/
   it('IBAN generated from account number 0010110203819', function() {
@@ -741,12 +900,6 @@ describe('#isValid impossible to detect invalid IBAN', function() {
 
   // http://www.ma-neobanque.com/iban-etranger-refuse-est-ce-vraiment-illegal/
   // "N26 dispose à présent du BIC Français qui est NTSBFRM associé au Code Banque 20433"
-
-  //TODO: Validates Norwegian bank account numbers
-  // https://github.com/zrrrzzt/is-valid-account-number
-
-  //TODO: New Zealand bank account number validation (++)
-  // https://github.com/jayniehaka/nz-account-number-validation
 });
 
 // Tester cohérence IBAN et BIC

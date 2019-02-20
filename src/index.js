@@ -145,6 +145,17 @@ function vote(iban) {
       return false
     }
   }
+  if (substr == "PK") {
+    if (iban.substr(4, 4) == "MEZN") {
+      // "Next two digits will be zeroes: 00" https://www.meezanbank.com/iban-generator/
+      if (iban.substr(8, 2) != "00") {
+        console.log("need 00 for Meezan Bank")
+        return false
+      }
+      //TODO : check branch
+      // 'bannu' in view-source:https://www.meezanbank.com/iban-generator/
+    }
+  }
 
   if (substr == "AT") {
     //TODO: check BLZ
@@ -264,6 +275,14 @@ function vote(iban) {
       return false
     }
   }
+  if (substr == "TR") {
+    const reserveDigit = iban.substr(9, 1)
+    if (reserveDigit != '0') {
+      // no source
+      console.log('wrong reserve digit')
+      return false
+    }
+  }
   if (substr == "SE") {
     /*
     // see https://github.com/jop-io/kontonummer.js
@@ -367,8 +386,11 @@ function vote(iban) {
   if (ibankit.IBAN.isValid(iban) == false) {
     votes.push('ibankit')
   }
-  if (IBAN.isValid(iban) == false) {
+  if (IBAN.isValid(iban) == false && substr != "VA") {
     votes.push('IBAN')
+  }
+  if (substr == "VA" && isVaticanAccepted() == false) {
+    return false
   }
 
   // could add https://github.com/uphold/validator.js-asserts#internationalbankaccountnumber-iban ?
@@ -384,7 +406,7 @@ function vote(iban) {
   if (IbanBT.isValid(iban) == false) {
     //TODO : run only on simples (larges) countries
     if (substr != "LC" && substr != "ST" && substr != "SC" && substr != "DE"
-      && substr != "IR" && substr != "UA" && substr != "SV") {
+      && substr != "IR" && substr != "UA" && substr != "SV" && substr != "VA") {
       votes.push("banking-toolkit")
     }
   }
@@ -462,6 +484,10 @@ function validateSpecific(iban) {
   }
   //return {isSpecific: isSpecific, isValid: bool}
   return bool
+}
+
+function isVaticanAccepted() {
+  return new Date() >= new Date("01/11/22019")
 }
 
 // for passing a test (in test.js)
