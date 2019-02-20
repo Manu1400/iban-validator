@@ -71,7 +71,7 @@ function checkCurrency(iban) {
   if (substr == "MU" || substr == "SC") {
     // currency on 3 characters
     if (isCurrencyCode(iban.substr(-3)) == false || iban.substr(-3) == "XBA") {
-      console.error("wrong (or old) currency code in IBAN")
+      console.log("wrong (or old) currency code in IBAN")
       return false
     }
   }
@@ -82,7 +82,7 @@ function checkCurrency(iban) {
     if (currency == "01" || currency == "02" || currency == "28") {
       return true
     } else {
-      console.error("wrong currency")
+      console.log("wrong currency")
       return false
     }
   }
@@ -108,7 +108,7 @@ function checkBranch(iban) {
     var branches = ["0446", "0447", "0448", "0449", "0450", "0451", "0452", "0453", "0454", "0455", "0456", "0457", "0458", "0458", "0460", "0466", "0467", "0468", "0469", "0470", "0471", "0472", "0474", "0475", "0481", "0483", "0484"]
     var branch = iban.substr(8, 4)
     if (branches.includes(branch) == false) {
-      console.error("unknown branch " + branch + " in IBAN " + iban)
+      console.log("unknown branch " + branch + " in IBAN " + iban)
       return false
     }
   }
@@ -437,7 +437,7 @@ function checkCountry(iban) {
     console.log(countries.getCountryName(substr))
     return true
   } else {
-    console.error(substr + " is not a valid ISO code")
+    console.log(substr + " is not a valid ISO code")
     return false
   }
 }
@@ -490,6 +490,16 @@ function isVaticanAccepted() {
   return new Date() >= new Date("01/11/22019")
 }
 
+function fetchAccountNumber(bankNumber, accountNumber) {
+  //var substr = iban.trim().substr(0, 2)
+  //if (substr == "CY") {
+
+    // Promise
+    return require('./CY/fetch').fetchAccountNumber(bankNumber, accountNumber)
+  //}
+  //return true
+}
+
 // for passing a test (in test.js)
 function beforeVote(iban) {
   const FORMAT_IBAN = /^[A-Z]{2}[0-9]{2}[0-9A-Z]{11,30}$/;
@@ -497,10 +507,11 @@ function beforeVote(iban) {
   iban = IBAN.printFormat(iban, '')
   // Validate global IBAN format
   if (!iban.match(FORMAT_IBAN)) {
-    console.error('! Invalid IBAN format; expecting: \'' + FORMAT_IBAN + '\', found: \'' + iban + '\'');
+    console.log('! Invalid IBAN format; expecting: \'' + FORMAT_IBAN + '\', found: \'' + iban + '\'');
     return false
   }
   return vote(iban)
 }
 
 module.exports.isValid = beforeVote; // hack
+module.exports.fetchAccountNumber = fetchAccountNumber

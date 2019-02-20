@@ -788,15 +788,6 @@ describe('#isValid impossible to detect invalid IBAN', function() {
     chai.expect(validation.isValid('CY05007101100000000100011111')).to.equal(false)
   });
 
-  // https://www.ccb.coop/tools/iban/#!prettyPhoto
-  /*
-  it('Invalid account number from ccb.coop', function() {
-    //TODO: check account number : query AJAX -> fetch
-    // 10110 + 77777777 -> invalid number : account number 0000000077777777
-    chai.expect(validation.isValid('CY47007101100000000077777777')).to.equal(false)
-  });
-  */
-
   // http://akbl.com.pk/services/iban-account/iban-generator/
   it('IBAN generated from account number 0010110203819', function() {
     chai.expect(validation.isValid('PK12ASCM0000010110203819')).to.equal(true)
