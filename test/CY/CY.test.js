@@ -16,10 +16,6 @@ describe('without fetch', () => {
 describe('testing fetch ccb.coop', () => {
   const URL_ccb_coop = 'https://www.ccb.coop/Handlers/FindBBANIBAN.ashx'
 
-  before(() => {
-    //global.fetch = require('jest-fetch-mock')
-  })
-
   beforeEach(() => {
     fetch.resetMocks()
   })

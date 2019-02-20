@@ -2,11 +2,11 @@ const miniban = require('miniban')
 const IBAN = require('IBAN')
 const ibankit = require('ibankit') //TODO: tsc (typescript)
 const fastIban = require('fast-iban')
-const BICFromIBAN = require('bic-from-iban')
+//const BICFromIBAN = require('bic-from-iban')
 const IbanBT = require('banking-toolkit/src/modules/iban')
 
 const Validator = require('validator.js').Validator;
-const is = require('validator.js').Assert.extend(require('validator.js-asserts'));
+//const is = require('validator.js').Assert.extend(require('validator.js-asserts'));
 const validator = new Validator();
 
 // Specific
@@ -14,7 +14,8 @@ const Sheba = require('iran-sheba')
 const FinnishBankUtils = require('finnish-bank-utils')
 const countries = require('./countries')
 var BankUtils = require('unified-bank-utils')
-const banksDE = require('fints-institute-db')
+//const banksDE = require('fints-institute-db')
+const banksDE = require('./DE/blz.json')
 const isValidNorwegianAccountNumber = require('is-valid-account-number')
 const { isSINPE } = require('./CR/isSINPE')
 const depositIban = require('deposit-iban')
@@ -35,7 +36,7 @@ const isCurrencyCode = require('is-currency-code')
 // or https://github.com/liamja/modcheck.js
 const UkModulusChecking = require('uk-modulus-checking')
 
-const tryPhp = require('./try-php')
+//const tryPhp = require('./try-php')
 
 // edit the script
 // https://github.com/MiroslavJelaska/iban-hr.js/blob/master/iban-hr.js
@@ -265,6 +266,8 @@ function vote(iban) {
   if (substr == "DE") { // for DE02100500000024290661
     var bankCode = iban.substr(4, 8)
     //var accountNumber = parseInt(iban.substr(12), 10) // à vérifier (12)
+    return banksDE.includes(bankCode)
+    /*
     var bank = banksDE.filter( function( bank ) {
       return bank.blz === bankCode
     })
@@ -274,6 +277,7 @@ function vote(iban) {
     if (bank.length == 0) {
       return false
     }
+    */
   }
   if (substr == "TR") {
     const reserveDigit = iban.substr(9, 1)
@@ -394,13 +398,13 @@ function vote(iban) {
   }
 
   // could add https://github.com/uphold/validator.js-asserts#internationalbankaccountnumber-iban ?
-  if (validator.validate(iban, is.internationalBankAccountNumber()) == false) {
-    votes.push('validator.js-asserts_is_iban_function')
-  }
+  //if (validator.validate(iban, is.internationalBankAccountNumber()) == false) {
+  //  votes.push('validator.js-asserts_is_iban_function')
+  //}
 
-  if (BICFromIBAN.validateIBAN(iban) == false) {
-    votes.push("BICFromIBAN")
-  }
+  //if (BICFromIBAN.validateIBAN(iban) == false) {
+  //  votes.push("BICFromIBAN")
+  //}
 
   //TODO: utiliser aussi le module sortCode
   if (IbanBT.isValid(iban) == false) {
@@ -461,7 +465,7 @@ function validateSpecific(iban) {
         // GB46BUKB 200415 38290008
         accountNumber: iban.substr(8+6), // 15764273 = Account Number check digit is incorrect (from https://www.iban.com/calculate-iban )
         sortCode: iban.substr(8, 6) // 6 characters (aka. Bankleitzahl or bank code)
-      }).isValid() && miniban.isValidIBAN(iban) && validator.validate(iban, is.internationalBankAccountNumber())
+      }).isValid() && miniban.isValidIBAN(iban) // && validator.validate(iban, is.internationalBankAccountNumber())
       //note: can check sortCode on webpage http://www.fasterpayments.org.uk/consumers/sort-code-checker
       break
     case 'IR':

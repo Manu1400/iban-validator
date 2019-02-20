@@ -47,7 +47,9 @@
     "jest-fetch-mock": "^2.1.1",
     "jest-puppeteer": "^4.0.0",
     "mocha": "^5.2.0",
-    "puppeteer": "^1.12.2"
+    "puppeteer": "^1.12.2",
+    "webpack": "^4.29.5",
+    "webpack-cli": "^3.2.3"
   },
   "engines": {
     "node": ">=8.0.0"
