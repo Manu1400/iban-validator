@@ -16,6 +16,10 @@ describe('without fetch', () => {
 describe('testing fetch ccb.coop', () => {
   const URL_ccb_coop = 'https://www.ccb.coop/Handlers/FindBBANIBAN.ashx'
 
+  before(() => {
+    //global.fetch = require('jest-fetch-mock')
+  })
+
   beforeEach(() => {
     fetch.resetMocks()
   })
@@ -48,4 +52,6 @@ describe('testing fetch ccb.coop', () => {
     expect(fetch.mock.calls.length).toEqual(1)
     expect(fetch.mock.calls[0][0]).toEqual(URL_ccb_coop + '?bbannumber=77777777&bank_selected=10110')
   })
+
+  // after
 })

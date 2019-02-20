@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest test/*",
-    "test-mocha": "mocha --timeout 10000 --use_strict --recursive",
+    "test-mocha": "mocha --timeout 10000 --use_strict --recursive --check-leaks --use_strict --exclude test/CY/CY.test.js",
     "install": "git clone https://github.com/jop-io/kontonummer.js.git node_modules/kontonummer.js"
   },
   "keywords": [
@@ -45,7 +45,9 @@
     "fetch-mock": "^7.3.0",
     "jest": "^24.1.0",
     "jest-fetch-mock": "^2.1.1",
-    "mocha": "^5.2.0"
+    "jest-puppeteer": "^4.0.0",
+    "mocha": "^5.2.0",
+    "puppeteer": "^1.12.2"
   },
   "engines": {
     "node": ">=8.0.0"
