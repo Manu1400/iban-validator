@@ -15,8 +15,8 @@ const FinnishBankUtils = require('finnish-bank-utils')
 const countries = require('./countries')
 var BankUtils = require('unified-bank-utils')
 //const banksDE = require('fints-institute-db')
-//const banksDE = require('./DE/blz.json')
-import banksDE from './DE/blz.json'
+const banksDE = require('./DE/blz.json')
+//import banksDE from './DE/blz.json'
 
 //TODO : move to use it as a Promise
 //export const banksDE = async ()

@@ -1,0 +1,22 @@
+diff --git a/node_modules/uk-modulus-checking/src/index.js b/node_modules/uk-modulus-checking/src/index.js
+index e7257f1..392c6b0 100644
+--- a/node_modules/uk-modulus-checking/src/index.js
++++ b/node_modules/uk-modulus-checking/src/index.js
+@@ -244,7 +244,7 @@ export default class UkModulusChecking {
+    */
+ 
+   loadScsubtab() {
+-    const content = fs.readFileSync(`${__dirname}/data/scsubtab.txt`, 'utf8');
++    const content = require('./data/scsubtab.txt');
+     const scsubtab = [];
+ 
+     content.split('\r\n').forEach((line) => {
+@@ -264,7 +264,7 @@ export default class UkModulusChecking {
+    */
+ 
+   loadValacdos() {
+-    const content = fs.readFileSync(`${__dirname}/data/valacdos-v530-updated.txt`, 'utf8');
++    const content = require('./data/valacdos-v530-updated.txt');
+     const valacdos = [];
+ 
+     content.split('\r\n').forEach((line) => {
