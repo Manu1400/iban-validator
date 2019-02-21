@@ -15,9 +15,16 @@ const FinnishBankUtils = require('finnish-bank-utils')
 const countries = require('./countries')
 var BankUtils = require('unified-bank-utils')
 //const banksDE = require('fints-institute-db')
-const banksDE = require('./DE/blz.json')
+//const banksDE = require('./DE/blz.json')
+import banksDE from './DE/blz.json'
+
+//TODO : move to use it as a Promise
+//export const banksDE = async ()
+//   => (await import(`./DE/blz.json`)) // .data;
+
 const isValidNorwegianAccountNumber = require('is-valid-account-number')
 const { isSINPE } = require('./CR/isSINPE')
+//const isValidIbanSR = require('./SR/SR')
 const depositIban = require('deposit-iban')
 const isValidIsraelAccountNumber = require('il-bank-account-validator')
 // https://stackoverflow.com/questions/34059644/mocha-command-giving-referenceerror-window-is-not-defined
@@ -266,6 +273,7 @@ function vote(iban) {
   if (substr == "DE") { // for DE02100500000024290661
     var bankCode = iban.substr(4, 8)
     //var accountNumber = parseInt(iban.substr(12), 10) // à vérifier (12)
+    console.log(banksDE)
     return banksDE.includes(bankCode)
     /*
     var bank = banksDE.filter( function( bank ) {
@@ -494,16 +502,6 @@ function isVaticanAccepted() {
   return new Date() >= new Date("01/11/22019")
 }
 
-function fetchAccountNumber(bankNumber, accountNumber) {
-  //var substr = iban.trim().substr(0, 2)
-  //if (substr == "CY") {
-
-    // Promise
-    return require('./CY/fetch').fetchAccountNumber(bankNumber, accountNumber)
-  //}
-  //return true
-}
-
 // for passing a test (in test.js)
 function beforeVote(iban) {
   const FORMAT_IBAN = /^[A-Z]{2}[0-9]{2}[0-9A-Z]{11,30}$/;
@@ -518,4 +516,3 @@ function beforeVote(iban) {
 }
 
 module.exports.isValid = beforeVote; // hack
-module.exports.fetchAccountNumber = fetchAccountNumber

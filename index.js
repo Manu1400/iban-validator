@@ -1,6 +1,7 @@
 'use strict'
 
-const {isValid, fetchAccountNumber} = require('./src/index')
+const {isValid} = require('./src/index')
+const {fetchAccountNumber} = require('./src/fetchAccountNumber')
 const {getBIC} = require('./src/getBIC')
 const {getSINPE} = require('./src/CR/getSINPE')
 const {isSINPE} = require('./src/CR/isSINPE')
