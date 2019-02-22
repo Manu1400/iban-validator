@@ -494,6 +494,13 @@ describe('#isValid impossible to detect invalid IBAN', function() {
   it('Inexistant branch', function() {
     chai.expect(validation.isValid('PS93PALS050012345670993000000')).to.equal(false)
   });
+  // from https://twitter.com/SDRainbows/status/1067672663978500096
+  it('Palestine real IBAN', function() {
+    // Account n : 116410 / 0 Bank name: bank of #Palestine p.l.c
+    // Bank no : 89 Branch no: 454 Branch name : remal branch Swift code: palsps22
+    // Account in USD
+    chai.expect(validation.isValid('PS93 PALS 0454 0116 4100 0130 0000 0')).to.equal(true)
+  });
 
   // http://www.ajmanbank.ae/site/uae-iban-format.html
   it('IBAN generated ajmanbank.ae', function() {
