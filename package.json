@@ -6,8 +6,15 @@
   "scripts": {
     "test": "jest test/*",
     "test:mocha": "mocha --timeout 10000 --use_strict --recursive --check-leaks --use_strict --exclude test/CY/CY.test.js",
-    "install": "git clone https://github.com/jop-io/kontonummer.js.git node_modules/kontonummer.js",
+    "install": "napa",
     "postinstall": "patch-package"
+  },
+  "napa": {
+    "kontonummer.js": "jop-io/kontonummer.js",
+    "oib-validator.js": "MiroslavJelaska/iban-hr.js",
+    "njs-tfso-bankaccount-validation": "tfso/njs-tfso-bankaccount-validation",
+    "banking-toolkit": "Pygocentrus/banking-toolkit",
+    "unified-bank-utils": "fohlin/unified-bank-utils"
   },
   "keywords": [
     "IBAN"
@@ -16,7 +23,6 @@
   "license": "MIT",
   "dependencies": {
     "IBAN-JStools": "git://github.com/MechaPoulpe/IBAN-JStools.git",
-    "banking-toolkit": "git+https://github.com/Pygocentrus/banking-toolkit.git",
     "bic-from-iban": "^1.0.0",
     "cross-fetch": "^3.0.1",
     "deposit-iban": "^1.8.0",
@@ -30,14 +36,11 @@
     "is-currency-code": "^1.2.0",
     "is-valid-account-number": "^2.0.1",
     "miniban": "^1.1.1",
-    "njs-tfso-bankaccount-validation": "git+https://github.com/tfso/njs-tfso-bankaccount-validation.git",
     "node-dbf": "^0.4.0",
-    "oib-validator.js": "git+https://github.com/MiroslavJelaska/iban-hr.js.git",
     "php.js": "^0.1.1",
     "run-php": "0.0.1",
     "tslib": "^1.9.3",
-    "uk-modulus-checking": "^0.1.1",
-    "unified-bank-utils": "git+https://github.com/fohlin/unified-bank-utils.git",
+    "uk-modulus-checking": "0.1.0",
     "validator.js-asserts": "^3.1.0",
     "webpack-dev-server": "^3.2.0",
     "webpack-merge": "^4.2.1"
@@ -56,6 +59,7 @@
     "jest-puppeteer": "^4.0.0",
     "mocha": "^6.0.1",
     "mocha-loader": "^2.0.0",
+    "napa": "^3.0.0",
     "patch-package": "^6.0.2",
     "puppeteer": "^1.12.2",
     "webpack": "^4.29.5",
