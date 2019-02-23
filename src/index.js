@@ -27,6 +27,9 @@ const { isSINPE } = require('./CR/isSINPE')
 //const isValidIbanSR = require('./SR/SR')
 const depositIban = require('deposit-iban')
 const isValidIsraelAccountNumber = require('il-bank-account-validator')
+
+// https://github.com/andreicek/oib.js too
+
 // https://stackoverflow.com/questions/34059644/mocha-command-giving-referenceerror-window-is-not-defined
 //const oibValidator = require('./../node_modules/oib-validator.js/iban-hr')
 
@@ -169,6 +172,13 @@ function vote(iban) {
     //TODO: check BLZ
   }
 
+  if (substr == "GT") {
+    var codes = ["BAGU", "CHNA", "TRAJ", "BINM", "INDL", "BRRL", "DIBI", "CITI", "VIVB", "FCOH", "BPRC", "ANTG", "AMCN", "AGRO", "GTCO", "BDCT", "AZTK", "FIVN", "FIOC", "FSCG", "FCOO"]
+    if (codes.includes(iban.substr(4, 4)) == false) {
+      return false
+    }
+  }
+
   // https://www.nbs.sk/en/payment-systems/iban/iban-slovak-republic -> ??
   if (substr == "SK") {
     const bankCode = iban.substr(4, 4)
@@ -194,6 +204,16 @@ function vote(iban) {
     var bankCodesRS = require('./RS/bankCodeArr.json')
     if (bankCodesRS.includes(bankCode) == false) {
       console.log('code bank (in RS country) not found')
+      return false
+    }
+  }
+
+  if (substr == "CZ") {
+    var bankCode = iban.substr(4,4)
+    // download as 22 fev. 2019 https://www.cnb.cz/en/payment_systems/accounts_bank_codes/
+    var bankCodesCZ = require('./CZ/bankCodes.json')
+    if (bankCodesCZ.includes(bankCode) == false) {
+      console.log('code bank (in CZ country) not found')
       return false
     }
   }

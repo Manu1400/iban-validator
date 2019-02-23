@@ -735,8 +735,14 @@ describe('#isValid impossible to detect invalid IBAN', function() {
   });
 
   it('IBAN (from Guatemala) with valid currency (28) and valid Account Type (07)', function() {
-    // ABC is not a valid currency
-    chai.expect(validation.isValid('GT68BARC28071234567890123456')).to.equal(true)
+    // 10 is not a valid currency
+    chai.expect(validation.isValid('GT93BAGU10011234567890123456')).to.equal(false)
+    // https://www.banguat.gob.gt:8876/iban/CuentaEstandarizada/CuentaEstandarizada.aspx
+    chai.expect(validation.isValid('GT48BAGU28071234567890123456')).to.equal(true)
+
+    chai.expect(validation.isValid('GT26AAAA28071234567890123456')).to.equal(false)
+    // Account Type: 10 - wrong
+    chai.expect(validation.isValid('GT70BAGU28101234567890123456')).to.equal(false)
   });
 
   //TODO: check branch of Bank of Ireland
