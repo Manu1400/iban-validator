@@ -40,7 +40,7 @@
     "php.js": "^0.1.1",
     "run-php": "0.0.1",
     "tslib": "^1.9.3",
-    "uk-modulus-checking": "0.1.0",
+    "uk-modulus-checking": "0.1.1",
     "validator.js-asserts": "^3.1.0",
     "webpack-dev-server": "^3.2.0",
     "webpack-merge": "^4.2.1"
